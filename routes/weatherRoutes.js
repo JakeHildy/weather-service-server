@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
 const API_KEY = process.env.WEATHER_API_KEY;
