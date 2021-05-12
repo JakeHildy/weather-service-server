@@ -14,7 +14,7 @@ router.route("/").get(async (req, res) => {
     );
     res.status(200).json({ status: "success", data: weather.data });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({ status: "error", data: err });
   }
 });
 
