@@ -6,7 +6,23 @@ const API_KEY = process.env.WEATHER_API_KEY;
 
 const router = express.Router();
 
-router.route("/").get(async (req, res) => {
+function getToken(req) {
+  if (!req.headers.authorization) return null;
+  return req.headers.authorization.split(" ")[1];
+}
+
+const authorize = (req, res, next) => {
+  const token = getToken(req);
+  if (!token) return res.status(403).json({ error: "No token. Unauthorized." });
+  if (jwt.verify(token, process.env.JWT_KEY)) {
+    req.decode = jwt.decode(token);
+    next();
+  } else {
+    res.status(403).json({ error: "Not Authorized." });
+  }
+};
+
+router.route("/").get(authorize, async (req, res) => {
   const city = req.query.city;
   try {
     const weather = await axios.get(

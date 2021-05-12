@@ -9,8 +9,8 @@ router.route("/").post((req, res) => {
   const { accessCode } = req.body;
   if (accessCode !== process.env.ACCESS_CODE) {
     return res
-      .status(400)
-      .json({ status: "fail", message: "Incorrect Credentials" });
+      .status(401)
+      .json({ status: "Unauthorized", message: "Incorrect Credentials" });
   }
 
   // Correct Access Code
